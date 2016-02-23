@@ -462,3 +462,82 @@ JobMeanPayPlot6 <- ggplot(data=JobMeanPay, aes(x=MeanPay, y=Difference_Position)
 JobMeanPayPlot6+ theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
+
+
+#mean salaries of  2011 and 2014 jobs
+#Use paste to apply uniform column names.
+```{r}
+
+MeanPay2011 <- Salary2011 %>% group_by(factor(Job_Title)) %>%
+  summarise(mean=mean(total_pay), sd=sd(total_pay))
+#MeanPay2011 <- Salary2011 %>% group_by(factor(job_title)) %>%
+#summarise(mean=mean(total_pay))
+#MeanPay2011$Year <- '2011'
+
+names(MeanPay2011)[1] <- paste("Job_Title")
+names(MeanPay2011)[2] <- paste("2011Mean")
+names(MeanPay2011)[3] <- paste("2011SD")
+
+
+
+MeanPay2014 <- Salary2014 %>% group_by(factor(Job_Title)) %>%
+  summarise(mean=mean(Total.Pay), sd=sd(Total.Pay))
+
+#MeanPay2014 <- Salary2014 %>% group_by(factor(Job.Title)) %>%
+# summarise(mean=mean(Total.Pay))
+
+names(MeanPay2014)[1] <- paste("Job_Title")
+names(MeanPay2014)[2] <- paste("2014Mean")
+names(MeanPay2014)[3] <- paste("2014SD")
+
+
+MeanPay2011 <- left_join(Jobtitle2011byCount,MeanPay2011,"Job_Title")
+MeanPay2014 <- left_join(Jobtitle2014byCount,MeanPay2014,"Job_Title")
+
+names(MeanPay2011)[1] <- paste("Job_Title")
+names(MeanPay2011)[2] <- paste("2011Positions")
+names(MeanPay2011)[3] <- paste("2011Mean")
+names(MeanPay2011)[4] <- paste("2011SD")
+names(MeanPay2014)[1] <- paste("Job_Title")
+names(MeanPay2014)[2] <- paste("2014Positions")
+names(MeanPay2014)[3] <- paste("2014Mean")
+names(MeanPay2014)[4] <- paste("2014SD")
+
+JobsandMeanPay20112014 <- full_join(MeanPay2011,MeanPay2014,"Job_Title")
+
+#update NA to 0 for all variables.
+
+JobsandMeanPay20112014$`2011SD`[is.na(JobsandMeanPay20112014$`2011SD`)] <- 0
+JobsandMeanPay20112014$`2014Positions`[is.na(JobsandMeanPay20112014$`2014Positions`)] <- 0
+JobsandMeanPay20112014$`2014Mean`[is.na(JobsandMeanPay20112014$`2014Mean`)] <- 0
+JobsandMeanPay20112014$`2014SD`[is.na(JobsandMeanPay20112014$`2014SD`)] <- 0
+
+
+```
+
+#More positions when pay is less.
+
+```{r fig.width=15, fig.height=15}
+
+
+ggplot(aes(x = MeanPay2011$`2011Mean`), data = MeanPay2011) +
+  geom_freqpoly( binwidth=20) + 
+  scale_x_continuous(limits = c(40000, 522594), breaks = seq(40000, 522594, 20000)) + 
+  xlab('Mean Pay') + 
+  ylab('Number of JobTitles')
+
+
+```
+
+#Higer the basepay, lesser the positions
+
+```{r fig.width=15, fig.height=15}
+
+ggplot(data=MeanPay2011, aes(x=MeanPay2011$`2011Mean`, y=MeanPay2011$`2011Positions`)) +
+  geom_bar(stat="identity")+
+  scale_x_continuous(limits = c(400000, 522594), breaks = seq(400000, 522594, 10000)) +
+  ylim(c(0,25))+
+  ylab('Number of positions')+
+  xlab('Mean Pay')
+```
+

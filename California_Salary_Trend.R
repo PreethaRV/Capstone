@@ -333,7 +333,7 @@ ggplot(data=JobMeanPay, aes(x=MeanPay, y=Difference_Position)) +
 
 #mean salaries of jobs for 2011 and 2014
 
-MeanPay2011 <- Salary2011 %>% group_by(factor(job_title)) %>%
+MeanPay2011 <- Salary2011 %>% group_by(factor(Job_Title)) %>%
   summarise(mean=mean(total_pay), sd=sd(total_pay))
 #MeanPay2011 <- Salary2011 %>% group_by(factor(job_title)) %>%
 #summarise(mean=mean(total_pay))
@@ -345,7 +345,7 @@ names(MeanPay2011)[3] <- paste("2011SD")
 
 
 
-MeanPay2014 <- Salary2014 %>% group_by(factor(Job.Title)) %>%
+MeanPay2014 <- Salary2014 %>% group_by(factor(Job_Title)) %>%
   summarise(mean=mean(Total.Pay), sd=sd(Total.Pay))
 
 #MeanPay2014 <- Salary2014 %>% group_by(factor(Job.Title)) %>%

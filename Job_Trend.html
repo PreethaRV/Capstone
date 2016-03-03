@@ -823,8 +823,8 @@ JobsandMeanPay20112014$`2014Positions`[is.na(JobsandMeanPay20112014$`2014Positio
 JobsandMeanPay20112014$`2014Mean`[is.na(JobsandMeanPay20112014$`2014Mean`)] &lt;- 0
 JobsandMeanPay20112014$`2014SD`[is.na(JobsandMeanPay20112014$`2014SD`)] &lt;- 0</code></pre>
 </div>
-<div id="more-jobs-with-less-mean-pay" class="section level1">
-<h1>More Jobs with less mean pay</h1>
+<div id="more-positions-when-pay-is-less." class="section level1">
+<h1>More positions when pay is less.</h1>
 <pre class="r"><code>ggplot(aes(x = MeanPay2011$`2011Mean`), data = MeanPay2011) +
   geom_freqpoly( binwidth=20) + 
   scale_x_continuous(limits = c(40000, 522594), breaks = seq(40000, 522594, 20000)) + 
